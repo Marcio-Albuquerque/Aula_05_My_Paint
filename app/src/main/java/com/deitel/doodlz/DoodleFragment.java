@@ -47,4 +47,28 @@ public class DoodleFragment extends Fragment
         lastAcceleration = SensorManager.GRAVITY_EARTH;
         return view;
     }
+
+    // começa a detectar eventos de sensor
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        enableAccelerometerListening(); // detecta chacoalho
+    }
+
+    // Habilita a detecção de eventos
+    public void enableAccelerometerListening()
+    {
+        //obtém o componente SensorManager
+        SensorManager sensorManager =
+                (SensorManager)getActivity().getSystemService(
+                        Context.SENSOR_SERVICE);
+
+        // registra a detecção de eventos de acelerômetro
+        sensorManager.registerListener(sensorEventListener,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);;
+    }
+
+
 } //Final
