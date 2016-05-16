@@ -130,4 +130,10 @@ public class DoodleFragment extends Fragment
                 }
             }; //fim da classe interna anônima
 
+    private  void confirmErase()
+    {
+        EraseImageDialogFragment fragment = new EraseImageDialogFragment();
+        fragment.show(getFragmentManager(), "erase dialog");
+    }
+
 } //Final
