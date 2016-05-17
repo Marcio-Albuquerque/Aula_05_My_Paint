@@ -184,5 +184,32 @@ public class DoodleView extends View
         return true;
     } //fim do metodo onTouchhEvent
 
+    // chamado quando o usuário toca a tela
+    private void touchStarted(float x, float y, int lineID)
+    {
+        Path path; // usado para armazenar o caminho para identificar de toque dado
+        Point point; // usado para armazenar o último ponto no caminho
+
+        // se já existe um caminho para lineID
+        if (pathMap.containsKey(lineID))
+        {
+            path = pathMap.get(lineID); // obtém o objeto Path
+            path.reset(); // redefine o objeto Path, pois um novo toque começou
+            point = previousPointMap.get(lineID); // obtém o último ponto de Path
+        }
+        else
+        {
+            path = new Path();
+            pathMap.put(lineID, path); // adiciona o objeto Path ao mapa
+            point = new Point(); // cria um novo objeto Point
+            previousPointMap.put(lineID, point); // adiciona o objeto Point ao mapa
+        }
+
+        // move até as coordenadas do toque
+        path.moveTo(x, y);
+        point.x = (int) x;
+        point.y = (int) y;
+    }// fim do método touchStarted
+
 
 }
