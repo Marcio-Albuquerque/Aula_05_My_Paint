@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 public class DoodleFragment extends Fragment
 {
     private DoodleView doodleView; //trata eventos de toque e desenho
@@ -135,5 +136,49 @@ public class DoodleFragment extends Fragment
         EraseImageDialogFragment fragment = new EraseImageDialogFragment();
         fragment.show(getFragmentManager(), "erase dialog");
     }
+
+
+
+    // exibe os itens de menu deste fragmento
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.doodle_fragment_menu, menu);
+    }
+
+    // Trata a escolha no menu de opções
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        //escolhe com base no identificador de MenuItem
+        switch (item.getItemId())
+        {
+            case R.id.color:
+                ColorDialogFragment colordialog = new ColorDialogFragment();
+                colordialog.show(getFragmentManager(), "color dialog");
+                return true; // consome o evento de menu
+            case R.id.lineWidth:
+                LineWidthDialogFragment widthdialog =
+                        new LineWidthDialogFragment();
+                widthdialog.show(getFragmentManager(), "line width dialog");
+                return true; // consome o evento de menu
+            case R.id.eraser:
+                doodleView.setDrawingColor(Color.WHITE) // cor de linha branca
+                return true; //consome o evento de menu
+            case R.id.clear:
+                confirmErase(); //confirma antes de apagar a imagem
+                return true; //consome o evento de menu
+            case R.id.save:
+                doodleView.saveImage(); // salva a imagem atual
+                return true; //consome o evento de menu
+            case R.id.print:
+                doodleView.printImage(); //imprime a imagem atual
+                return true; // consome o evento de menu
+        } // fim de switch
+
+        return super.onOptionsItemSelected(item); // Chama o método de super
+    } // Fim do método onOptionsItemSelected
+
 
 } //Final
