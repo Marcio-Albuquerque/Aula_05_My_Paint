@@ -119,7 +119,27 @@ public class DoodleView extends View
             canvas.drawPaint(pathMap.get(Key), paintLine); // desenha a linha
     }
 
+    // oculta as baras de ação
+    public void hideSystemBars()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+        setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                        View.SYSTEM_UI_FLAG_FULLSCREEN |
+                        View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
 
+    // mostra as barras de sistema e a barra de ação
+    public void showSystemBars(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
 
 
 }
