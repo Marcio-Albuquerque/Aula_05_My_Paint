@@ -45,7 +45,24 @@ public class DoodleView extends View
     // usado para ocultar/mostrar barras de sistema
     private GestureDetector singleTapDetector;
 
-    public DoodleView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    // o construtor de DoodleView o inicializa
+    public DoodleView(Context context, AttributeSet attrs)
+    {
+        super(context, attrs); // passa o contexto para o construtor de View
+        paintScreen = new Paint(); // usado para exibir bitmap na tela
+
+        // ajusta as configurações de exibição iniciais da linha pintura
+        paintLine = new Paint();
+        paintLine.setAntiAlias(true); // suaviza as bordas da linha desenhada
+        paintLine.setColor(Color.BLACK); //a cor padrão é preto
+        paintLine.setStyle(Paint.Style.STROKE); // linha cheia
+        paintLine.setStrokeWidth(5); // configura a lugura de linha padrão
+        paintLine.setStrokeCap(Paint.Cap.ROUND);// extremidades da linha arredondadas
+
+        // GestureDetector para toques rápidos
+        singleTapDetector =
+                new GestureDetector(getContext(), singleTapListener);
     }
+
+
 }
