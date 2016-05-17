@@ -74,5 +74,39 @@ public class DoodleView extends View
         bitmap.eraseColor(Color.WHITE); // apaga o Bitmap com branco
     }
 
+    // limpa o desenho
+    public void clear()
+    {
+        pathMap.clear(); // remove todos os caminhos
+        previousPointMap.clear(); // remove todos os pontos anteriores
+        bitmap.eraseColor(Color.WHITE); // apaga o bitmap
+        invalidate(); // atualiza a tela
+    }
+
+    // configura a cor da linha pintada
+    public void setDrawingColor(int color)
+    {
+        paintLine.setColor(color);
+    }
+
+    // retorna a cor da linha pintada
+    public int getDrawingColor()
+    {
+        return paintLine.getColor();
+    }
+
+    // configura a lagura da linha pintada
+    public void setLineWidth(int width)
+    {
+        paintLine.setStrokeWidth(width);
+    }
+
+    // retorna a largura da linha pintada
+    public int getLineWidth()
+    {
+        return (int) paintLine.getStrokeWidth();
+    }
+
+
 
 }
