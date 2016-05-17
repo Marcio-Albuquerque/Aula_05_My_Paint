@@ -109,20 +109,19 @@ public class DoodleView extends View
 
     // Chamada sempre que essa View é desenhada
     @Override
-    protected void onDraw(Canvas canvas)
-    {
+    // chama todas as vezes que a View é desenhada
+    protected void onDraw(Canvas canvas) {
         // desenha a tela de fundo
         canvas.drawBitmap(bitmap, 0, 0, paintScreen);
-
-        // para cada caminho que está sendo desenhado
-        for (Integer Key : pathMap.keySet())
-            canvas.drawPaint(pathMap.get(Key), paintLine); // desenha a linha
+        // para cada path sendo desenhado
+        for (Integer key : pathMap.keySet())
+            canvas.drawPath(pathMap.get(key), paintLine); // desenha linha
     }
 
     // oculta as baras de ação
     public void hideSystemBars()
     {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
         setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
@@ -140,6 +139,50 @@ public class DoodleView extends View
                             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
                             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
+
+    // cria SimpleOnGestureListener para eventos de toque rápido
+    private SimpleOnGestureListener singleTapListener =
+            new SimpleOnGestureListener(){
+              @Override
+                public boolean onSingleTapUp(MotionEvent e){
+                  if ((getSystemUiVisibility() &
+                          View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0)
+                        hideSystemBars();
+                  else
+                      showSystemBars();
+                  return true;
+              }
+            };
+
+    // trata evento de toque
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        // obtém o tipo de evento e o identificador do ponteiro que causou o evento
+        // se um evento de toque rápido ocorreu em dispositivo KitKat ou mais recente
+        if (singleTapDetector.onTouchEvent(event))
+            return true;
+
+        int action = event.getActionMasked(); // tipo de evento
+        int actionIndex = event.getActionIndex(); // ponteiro (isto é, o dedo)
+
+        // determina se o toque começou, terminou ou está ocrrendo
+        if (action == MotionEvent.ACTION_DOWN|| action == MotionEvent.ACTION_POINTER_DOWN) {
+            touchStarted(event.getX(actionIndex),
+                    event.getY(actionIndex), event.getPointerId(actionIndex));
+        }
+        else if (action == MotionEvent.ACTION_UP ||
+                action == MotionEvent.ACTION_POINTER_UP)
+        {
+            touchEnded(event.getPointerId(actionIndex));
+        }
+        else
+        {
+            touchMoved(event);
+        }
+        invalidate(); // redesenhar
+        return true;
+    } //fim do metodo onTouchhEvent
 
 
 }
