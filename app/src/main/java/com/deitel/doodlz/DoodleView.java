@@ -64,5 +64,15 @@ public class DoodleView extends View
                 new GestureDetector(getContext(), singleTapListener);
     }
 
+    // O método onSizeChanged cria Bitmap e Canvas após exibir o aplicativo
+    @Override
+    public void onSizeChanged(int w, int h, int oldW, int olhH)
+    {
+        bitmap = Bitmap.createBitmap(getWidth(),getHeight(),
+                Bitmap.Config.ARGB_8888);
+        bitmapCanvas = new Canvas(bitmap);
+        bitmap.eraseColor(Color.WHITE); // apaga o Bitmap com branco
+    }
+
 
 }
