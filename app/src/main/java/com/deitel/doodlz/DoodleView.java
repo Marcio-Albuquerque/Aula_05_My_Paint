@@ -107,6 +107,19 @@ public class DoodleView extends View
         return (int) paintLine.getStrokeWidth();
     }
 
+    // Chamada sempre que essa View é desenhada
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        // desenha a tela de fundo
+        canvas.drawBitmap(bitmap, 0, 0, paintScreen);
+
+        // para cada caminho que está sendo desenhado
+        for (Integer Key : pathMap.keySet())
+            canvas.drawPaint(pathMap.get(Key), paintLine); // desenha a linha
+    }
+
+
 
 
 }
