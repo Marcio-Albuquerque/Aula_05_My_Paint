@@ -211,5 +211,46 @@ public class DoodleView extends View
         point.y = (int) y;
     }// fim do método touchStarted
 
+    // chamado quando o usuário arrasta o dedo pela tela
+    private void touchMoved(MotionEvent event)
+    {
+        // para cada um dos ponteiros em MotionEvent
+        for (int i = 0; i < event.getPointerCount(); i++)
+        {
+            // obtém o identificador e o índice do ponteiro
+            int pointerID = event.getPointerId(i);
+            int pointerIndex = event.findPointerIndex(pointerID);
+
+            //se existe um caminho associado ao ponteiro
+            if (pathMap.containsKey(pointerID))
+            {
+                // obtém as novas coordenadas do ponteiro
+                float newX = event.getX(pointerIndex);
+                float newY = event.getY(pointerIndex);
+
+                // obtém o objeto Path e o objeto Point
+                // anterior associados a esse ponteiro
+                Path path = pathMap.get(pointerID);
+                Point point = previousPointMap.get(pointerID);
+
+                // calcula quanto o usuário moveu a partir da última atualização
+                float deltaX = Math.abs(newX - point.x);
+                float deltaY = Math.abs(newY - point.y);
+
+                // se a distância é significativa o suficiente para ter importância
+                if (deltaX >= TOUCH_TOLERANCE || deltaY >= TOUCH_TOLERANCE)
+                {
+                    // move o caminho para o novo local
+                    path.quadTo(point.x, point.y, (newX + point.x) / 2,
+                            (newY + point.y) / 2);
+
+                    // armazena as novas coordenadas
+                    point.x = (int) newX;
+                    point.y = (int) newY;
+                }
+            }
+        }
+
+    } // Fim do método touchMoved
 
 }
