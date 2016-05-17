@@ -23,10 +23,28 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-/**
- * Created by Marcio Albuquerque on 5/15/2016.
- */
-public class DoodleView extends View {
+// a tela principal que é pintada
+public class DoodleView extends View
+{
+    // usado para determinar se o usuário moveu um dedo o suficiente para
+    // desenhar novamente
+    private static final float TOUCH_TOLERANCE = 10;
+
+    private Bitmap bitmap; // área de desenho a exibir ou salvar
+    private Canvas bitmapCanvas; // usado para desenhar no bitmap
+    private final Paint paintScreen; // usado para desenhar o bitmap na tela
+    private final Paint paintLine; // usado para desenhar linhas no bitmap
+
+    // mapas dos objetos Path que estão sendo desenhados e os
+    // objetos Point desses objetos Path
+    private final Map<Integer, Path> pathMap = new HashMap<Integer, Path>();
+
+    private final Map<Integer, Point> previousPointMap =
+            new HashMap<Integer, Point>();
+
+    // usado para ocultar/mostrar barras de sistema
+    private GestureDetector singleTapDetector;
+
     public DoodleView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
