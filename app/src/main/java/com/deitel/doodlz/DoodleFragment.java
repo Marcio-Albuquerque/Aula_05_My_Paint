@@ -176,9 +176,18 @@ public class DoodleFragment extends Fragment
                 doodleView.printImage(); //imprime a imagem atual
                 return true; // consome o evento de menu
         } // fim de switch
-
         return super.onOptionsItemSelected(item); // Chama o método de super
     } // Fim do método onOptionsItemSelected
 
+    // retorna o objeto DoodleView
+    public DoodleView getDoodleView()
+    {
+        return doodleView;
+    }
 
+    // indica se uma caixa de diálogo está sendo exibida
+    public void setDialogOnScreen(boolean visible)
+    {
+        dialogOnScreen = visible;
+    }
 } //Final
